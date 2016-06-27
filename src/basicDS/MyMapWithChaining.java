@@ -7,16 +7,35 @@ import java.util.List;
 public class MyMapWithChaining<K,V> implements MyMapInterface<K,V> {
 	
 	private int MAX_SIZE = 17;
-	private K [] keys = null;
-	private ArrayList<V> [] values = null;
+	private ArrayList<KVPair<K,V>> [] keyValues = null;
 	private int size = 0;
+	
+	class KVPair<K,V>{
+		private K key;
+		private V value;
+		public KVPair(K k, V v){
+			this.key = k;
+			this.value = v;
+		}
+		public K getKey() {
+			return key;
+		}
+		public V getValue() {
+			return value;
+		}
+		
+		public void setValue(V v) {
+			 this.value = v;
+		}
+		
+		
+	}
 
 
 
 	@SuppressWarnings({ "unchecked", "unchecked" })
 	public MyMapWithChaining() {
-		keys = (K[])new Object[MAX_SIZE];
-		values = (ArrayList<V>[]) new Object[MAX_SIZE];
+		keyValues = (ArrayList<KVPair<K,V>>[] ) new Object[MAX_SIZE];
 	}
 
 	public int size() {
@@ -29,61 +48,59 @@ public class MyMapWithChaining<K,V> implements MyMapInterface<K,V> {
 			throw new RuntimeException("Max Size Exceeded.");
 
 		int hash = hash(k);
-		if (keys[hash] == null) {
-			keys[hash] = k;
-			ArrayList<V> a = new ArrayList<V>();
-			a.add(v);
-			values[hash] = a;	
+		if (keyValues[hash] == null) {		
+			ArrayList<KVPair<K,V>> a = new ArrayList<KVPair<K,V>>();
+			a.add(new KVPair<K,V>(k, v));
+			keyValues[hash] = a;
+			size++;
 		}
 		else {
 			//see if the key already exists in values array list.
-			ArrayList<V> a = values[hash];
-			for (V i:a) {
-				
+			ArrayList<KVPair<K,V>> a = keyValues[hash];
+			boolean keyExists = false;
+			for (KVPair<K,V> p:a) {
+				if (p.getKey().equals(k)){
+					p.setValue(v);
+					keyExists = true;
+					break;
+				}
 			}
-			// if not add new element
+			if (!keyExists){
+				a.add(new KVPair(k,v));
+				size++;
+			}
 		}
-		size++;
+		
 	}
 
 	public V get(K k) {
 		int hash = hash(k);
-		if (keys[hash] == null) return null;
-		if (keys[hash].equals(k)) return values[hash];
-		int numIterations = 1;
-		while (numIterations < (MAX_SIZE * 2)) {
-			hash = rehash(hash);
-			if (keys[hash] == null) return null;
-			if (keys[hash].equals(k)) return values[hash];
+		if (keyValues[hash] == null) return null;
+		ArrayList<KVPair<K,V>> a = keyValues[hash];
+		for (KVPair<K,V> p:a) {
+			if (p.getKey().equals(k)){
+				return p.getValue();
+			}
 		}
 		return null;
 
 	}
 	
 	public List<K> keys() {
-		return Arrays.asList(keys);
+		return null;
 	}
 	
 	public List<V> values() {
-		return Arrays.asList(values);
+		return null;
 	}
 	
 	public void del(K k) {
 		int hash = hash(k);
-		if (keys[hash] == null) return;
-		if (keys[hash].equals(k)) {
-			keys[hash] = null;
-			values[hash] = null;
-			size--;
-		}
-		int numIterations = 1;
-		while (numIterations < (MAX_SIZE * 2)) {
-			hash = rehash(hash);
-			if (keys[hash] == null) return;
-			if (keys[hash].equals(k)) {
-				keys[hash] = null;
-				values[hash] = null;
-				size--;
+		if (keyValues[hash] == null) return;
+		ArrayList<KVPair<K,V>> a = keyValues[hash];
+		for (KVPair<K,V> p:a) {
+			if (p.getKey().equals(k)){
+				a.remove(p);
 			}
 		}
 	}
@@ -93,9 +110,6 @@ public class MyMapWithChaining<K,V> implements MyMapInterface<K,V> {
 		return (Integer) k % MAX_SIZE;
 	}
 
-	private int rehash(int hash) {
-		return hash + 3;
-	}
 
 	
 
