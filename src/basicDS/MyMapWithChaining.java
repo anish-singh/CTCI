@@ -1,7 +1,7 @@
 package basicDS;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 
 public class MyMapWithChaining<K,V> implements MyMapInterface<K,V> {
@@ -33,9 +33,9 @@ public class MyMapWithChaining<K,V> implements MyMapInterface<K,V> {
 
 
 
-	@SuppressWarnings({ "unchecked", "unchecked" })
+	@SuppressWarnings("unchecked")
 	public MyMapWithChaining() {
-		keyValues = (ArrayList<KVPair<K,V>>[] ) new Object[MAX_SIZE];
+		keyValues = (ArrayList<KVPair<K,V>>[]) new ArrayList[MAX_SIZE];
 	}
 
 	public int size() {
@@ -56,7 +56,7 @@ public class MyMapWithChaining<K,V> implements MyMapInterface<K,V> {
 		}
 		else {
 			//see if the key already exists in values array list.
-			ArrayList<KVPair<K,V>> a = keyValues[hash];
+			ArrayList<KVPair<K,V>> a = keyValues[hash] ;
 			boolean keyExists = false;
 			for (KVPair<K,V> p:a) {
 				if (p.getKey().equals(k)){
@@ -66,7 +66,7 @@ public class MyMapWithChaining<K,V> implements MyMapInterface<K,V> {
 				}
 			}
 			if (!keyExists){
-				a.add(new KVPair(k,v));
+				a.add(new KVPair<K,V>(k,v));
 				size++;
 			}
 		}
@@ -98,10 +98,13 @@ public class MyMapWithChaining<K,V> implements MyMapInterface<K,V> {
 		int hash = hash(k);
 		if (keyValues[hash] == null) return;
 		ArrayList<KVPair<K,V>> a = keyValues[hash];
-		for (KVPair<K,V> p:a) {
-			if (p.getKey().equals(k)){
-				a.remove(p);
-			}
+		
+		Iterator<KVPair<K,V>> iter = a.iterator();
+		while (iter.hasNext()) {
+		    if (iter.next().getKey().equals(k)) {
+		        iter.remove();
+		        size--;
+		    }
 		}
 	}
 
