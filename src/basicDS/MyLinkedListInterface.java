@@ -16,6 +16,7 @@ public interface MyLinkedListInterface<T> {
 	public T pop();
 	public T pop(int index);
 	public void remove(T item);
+	public Node<T> getHead();
 	
 	public boolean isEmpty();
 	public int size();

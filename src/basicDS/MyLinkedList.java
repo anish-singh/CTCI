@@ -161,6 +161,9 @@ public class MyLinkedList<T> implements MyLinkedListInterface<T>, Iterable<T> {
 		}
 	}
 	
+	public Node<T> getHead() {
+		return this.head;
+	}
 	
 	private class MyListIterator<T> implements Iterator<T>{
 
