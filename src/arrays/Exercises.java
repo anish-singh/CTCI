@@ -1,8 +1,8 @@
-package ch1;
+package arrays;
 
 import java.util.*;
 
-public class MiscQuestions {
+public class Exercises {
 	
 	public boolean hasUniqueCharacters(String s) {
 		if (s==null) return false;
@@ -154,7 +154,7 @@ public class MiscQuestions {
 	
 	public static void main(String[] args) {
 		
-		MiscQuestions q = new MiscQuestions();
+		Exercises q = new Exercises();
 //		System.out.println(q.hasUniqueCharacters("abcb"));
 //		System.out.println(q.replaceSpace(" a b cd      "));
 //		System.out.println(q.replaceSpace(" a   "));
