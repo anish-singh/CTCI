@@ -35,25 +35,26 @@ public class Traversal {
 		}
 	}
 
+	int time = 0;
 	public void dfs(Graph<Integer> g) {
 
 		Collection<GraphNode<Integer>> nodes = g.getVertices();
 
 		for (GraphNode<Integer> node : nodes) {
 
-			GraphNode.STATUSES s = ((GraphNode<Integer>) node).status;
+			GraphNode.STATUSES s = node.status;
 			if (s == GraphNode.STATUSES.NOT_VISITED) {
-				((GraphNode<Integer>) node).discover = 0;
-				((GraphNode<Integer>) node).parent = null;
-				((GraphNode<Integer>) node).depth = 0;
-				dfs_recursive((GraphNode<Integer>) node, 0);
+				node.discover = 0;
+				node.parent = null;
+				node.depth = 0;
+				dfs_recursive(node);
 			}
 
 		}
 
 	}
 
-	private void dfs_recursive(GraphNode<Integer> node, int time) {
+	private void dfs_recursive(GraphNode<Integer> node) {
 		
 		node.status = GraphNode.STATUSES.VISITING;
 		Collection<GraphNode<Integer>> nodes = node.getNeighbors();
@@ -64,7 +65,7 @@ public class Traversal {
 					n.discover = ++time;
 					n.parent = node;
 					n.depth = node.depth +1;
-					dfs_recursive(n,time);
+					dfs_recursive(n);
 				}
 			}
 		}
