@@ -38,7 +38,7 @@ public class QuickSort {
 	public static void main(String[] args) {
 		QuickSort s= new QuickSort();
 		
-		int [] data = new int [] {321,2112,3,4,5,1};
+		int [] data = new int [] {4,2,1,0,3,6,7,8,5,9,10};
 		s.qsort(data,0, data.length-1);
 		for(int i=0;i < data.length;i++) {
 			System.out.println(data[i]);

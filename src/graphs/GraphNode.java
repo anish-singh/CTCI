@@ -15,7 +15,7 @@ public class GraphNode<K> {
 
 	
 	
-	K key;
+	public K key;
 	HashMap<GraphNode<K>, Integer> neighbors;
 	
 	public GraphNode(K key) {
