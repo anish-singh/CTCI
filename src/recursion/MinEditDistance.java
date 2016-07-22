@@ -19,12 +19,12 @@ public class MinEditDistance {
 				if (s1.charAt(i - 1) == s2.charAt(j - 1))
 					d[i][j] = d[i - 1][j - 1];
 				else
-					d[i][j] = 1 + min(d[i - 1][j], // remove
-							d[i][j - 1], // insert
-							d[i - 1][j - 1]); // replace
+					d[i][j] = min(d[i - 1][j] +1, // remove
+							d[i][j - 1] +1, // insert
+							d[i - 1][j - 1] + 2); // replace
 			}
 		}
-
+		
 		return d[m][n];
 	}
 
@@ -35,6 +35,6 @@ public class MinEditDistance {
 	}
 
 	public static void main(String[] args) {
-		System.out.println(MinEditDistance.minEditDistance("b  a", "bb"));
+		System.out.println(MinEditDistance.minEditDistance("b", "ab"));
 	}
 }
