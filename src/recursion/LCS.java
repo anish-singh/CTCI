@@ -39,6 +39,8 @@ public class LCS {
 				j--;
 			
 		}
+		System.out.println(lcs[a.length()][b.length()]);
+
 		return buf.reverse().toString();
 	
 
